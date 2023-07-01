@@ -1,26 +1,35 @@
+import { Injectable } from "@nestjs/common";
 import { MessageRepository } from "./messages.repository";
 
-
+@Injectable()
 export class MessagesService {
 
-    messageRepo : MessageRepository;
 
-    //Service is creating its own dependencies
-    // Dont do this on real apps
-    constructor() {
-        this.messageRepo = new MessageRepository();
-    }
+    /*This is also the approach to explicitly define properties and assign
+    values to them inside constructor
+    */
+    //messageRepo: MessageRepository;
+
+    /*constructor(messagesRepo: MessageRepository) {
+        this.messageRepo = messagesRepo;
+    }*/
+
+    /*
+        In this approach rather than defining properties in class
+        we are defining properties in the constructor 
+    */
+    constructor(public messagesRepo: MessageRepository) {}
 
     async findOne(id: string) {
-        return this.messageRepo.findOne(id);
+        return this.messagesRepo.findOne(id);
     }
 
     async findAll() {
-        return this.messageRepo.findAll();
+        return this.messagesRepo.findAll();
     }
 
     async create(content: string) {
-        return this.messageRepo.create(content);
+        return this.messagesRepo.create(content);
     }
     
 }
